@@ -92,6 +92,19 @@
             display: flex; align-items: center; justify-content: center; text-align: center;
         }
 
+        /* Hero Icon Animation */
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: beat 1.5s infinite ease-in-out;
+            text-shadow: 0 0 30px rgba(0, 242, 234, 0.5);
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 50px rgba(0, 242, 234, 0.8); }
+        }
+
         /* CALENDAR */
         .calendar-container {
             display: grid; grid-template-columns: 2fr 1fr; gap: 30px;
@@ -115,22 +128,6 @@
         }
         .day-cell:hover { transform: scale(1.05); z-index: 2; background: rgba(255,255,255,0.1); }
         .day-cell.active-day { background: var(--primary); color: black; box-shadow: 0 0 20px var(--primary); }
-
-        /* PHOTO UPLOAD */
-        #photo-upload-section { display: none; background: linear-gradient(45deg, #0f172a, #1e1b4b); }
-        .upload-box {
-            border: 2px dashed var(--border); padding: 40px; text-align: center;
-            border-radius: 15px; transition: 0.3s; background: rgba(0,0,0,0.2);
-        }
-        .upload-box:hover { border-color: var(--primary); background: rgba(0, 242, 234, 0.05); }
-
-        /* Success Message */
-        .success-message {
-            display: none; padding: 20px; border-radius: 10px;
-            background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success);
-            color: var(--success); margin-top: 15px; font-weight: bold; animation: fadeIn 0.5s;
-        }
-        .success-message i { font-size: 1.5rem; display: block; margin-bottom: 10px; }
 
         /* --- DASHBOARD --- */
         #dj-panel-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; overflow: hidden; }
@@ -156,10 +153,6 @@
         .req-card.status-favorite { border-left-color: var(--accent); background: rgba(255, 0, 80, 0.05); }
         .req-actions { display: flex; gap: 10px; }
 
-        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        .photo-card { background: #222; padding: 10px; border-radius: 8px; }
-        .photo-card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
@@ -182,7 +175,6 @@
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#calendar-section" class="nav-link">Kalendář</a></li>
                 <li><a href="#requests" class="nav-link">Requesty</a></li>
-                <li id="nav-photo-link" style="display:none"><a href="#photo-upload-section" class="nav-link" style="color:var(--accent)">Nahrát Fotky</a></li>
                 <li><a href="#contact" class="nav-link">Kontakt</a></li>
                 <div class="nav-indicator"></div>
             </ul>
@@ -192,6 +184,10 @@
 
     <section id="home" class="hero">
         <div class="container">
+            <div class="hero-icon">
+                <i class="fas fa-headphones-alt"></i>
+            </div>
+            
             <h1>ATMOSFÉRA <span style="color:var(--primary)">NA MÍRU</span></h1>
             <p style="color:#ccc; margin-bottom:30px;">Profesionální zvuk, světla a DJing.</p>
             <a href="#calendar-section" class="btn btn-primary">KALENDÁŘ AKCÍ</a>
@@ -221,31 +217,6 @@
                             <p style="color:#666;">Klikni na zvýrazněný den v kalendáři.</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="photo-upload-section">
-        <div class="container">
-            <h2 style="text-align:center; color:white;">SDÍLEJ FOTKY Z AKCE</h2>
-            <p style="text-align:center; color:#ccc; margin-bottom:40px;">Byl jsi na akci? Pošli mi fotku! Podpora velkých souborů (až 20MB).</p>
-            
-            <div class="upload-box">
-                <form id="user-upload-form">
-                    <input type="text" id="uploader-social" placeholder="Tvůj Instagram / Facebook (pro kredit)" style="max-width:400px;">
-                    <br>
-                    <input type="file" id="uploader-file" accept="image/*,video/*" style="max-width:400px;" required>
-                    <p style="font-size:0.8rem; color:#666; margin:10px 0;">Max velikost 20MB (Pozor: Nahrávání může chvíli trvat)</p>
-                    <br>
-                    <button type="submit" id="btn-upload" class="btn btn-primary"><i class="fas fa-camera"></i> NAHRÁT FOTKU</button>
-                    <p id="upload-status" style="margin-top:10px; color: var(--primary); display:none;">Zpracovávám a nahrávám...</p>
-                </form>
-
-                <div id="upload-success-msg" class="success-message">
-                    <i class="fas fa-check-circle"></i>
-                    Děkujeme moc za vaši fotku/video!<br>
-                    <span style="font-size:0.8rem; font-weight:normal;">Váš příspěvek byl úspěšně odeslán DJovi.</span>
                 </div>
             </div>
         </div>
@@ -285,7 +256,6 @@
                 <button class="dash-nav-btn active" onclick="switchTab('new-req')"><i class="fas fa-bell"></i> Nové Requesty</button>
                 <button class="dash-nav-btn" onclick="switchTab('fav-req')"><i class="fas fa-star"></i> Oblíbené</button>
                 <button class="dash-nav-btn" onclick="switchTab('cal-admin')"><i class="fas fa-calendar-alt"></i> Správa Kalendáře</button>
-                <button class="dash-nav-btn" onclick="switchTab('photos-admin')"><i class="fas fa-camera"></i> Fotky od lidí</button>
                 
                 <div style="margin-top:auto;">
                     <button id="logout-btn" class="btn btn-danger" style="width:100%"><i class="fas fa-sign-out-alt"></i> Odhlásit</button>
@@ -314,7 +284,7 @@
                             </div>
                             <input type="text" id="evt-desc" placeholder="Popis (klub, čas...)">
                             
-                            <label style="color:#aaa; font-size:0.8rem;">Obrázek akce (volitelné):</label>
+                            <label style="color:#aaa; font-size:0.8rem;">Obrázek akce (volitelné, max 20MB):</label>
                             <input type="file" id="evt-img-file" accept="image/*">
                             
                             <button type="submit" class="btn btn-success" id="btn-add-event">ULOŽIT DO KALENDÁŘE</button>
@@ -323,11 +293,6 @@
                     </div>
                     <h3>Seznam Akcí</h3>
                     <div id="admin-event-list"></div>
-                </div>
-
-                <div id="tab-photos-admin" class="dash-section">
-                    <h2>📸 Fotky z akcí (DB Base64)</h2>
-                    <div id="admin-photo-grid" class="photo-grid"></div>
                 </div>
             </div>
         </div>
@@ -358,7 +323,6 @@
         // --- HELPER: BASE64 CONVERTER (Limit 20MB) ---
         const convertToBase64 = (file) => {
             return new Promise((resolve, reject) => {
-                // Limit 20MB
                 if (file.size > 20 * 1024 * 1024) {
                     reject("Obrázek je příliš velký (Max 20MB).");
                     return;
@@ -438,36 +402,14 @@
                     l.innerHTML+=`<div style="background:#222;padding:10px;margin-bottom:5px;display:flex;justify-content:space-between"><span><b style="color:var(--primary)">${v.date}</b> - ${v.title}</span><button onclick="window.delEvent('${k}')" style="color:red;background:none;border:none"><i class="fas fa-trash"></i></button></div>`;
                 });
             });
-            onValue(ref(db, 'photos'), snap => {
-                const g = document.getElementById('admin-photo-grid'); g.innerHTML='';
-                const d = snap.val();
-                if(d) Object.entries(d).reverse().forEach(([k,v]) => {
-                    g.innerHTML += `<div class="photo-card"><img src="${v.url}" alt="Foto">
-                    <div style="margin-top:10px;display:flex;justify-content:space-between"><small>${v.social || 'Anonym'}</small>
-                    <div><a href="${v.url}" download="foto.jpg" style="color:var(--primary);margin-right:10px"><i class="fas fa-download"></i></a><span onclick="window.delPhoto('${k}')" style="color:red;cursor:pointer"><i class="fas fa-trash"></i></span></div></div></div>`;
-                });
-            });
         }
 
         window.setStatus = (k,s) => update(ref(db, `requests/${k}`), {status:s});
         window.delReq = (k) => remove(ref(db, `requests/${k}`));
         window.delEvent = (k) => { if(confirm("Smazat?")) remove(ref(db, `events/${k}`)); };
-        window.delPhoto = (k) => { if(confirm("Smazat fotku?")) remove(ref(db, `photos/${k}`)); };
 
         // --- 4. CALENDAR ---
         let eventsCache = {};
-        function checkActiveEvent() {
-            const t = new Date(); t.setHours(0,0,0,0);
-            let active = false;
-            Object.values(eventsCache).forEach(ev => {
-                const ed = new Date(ev.date); ed.setHours(0,0,0,0);
-                const diff = (t-ed)/(1000*60*60*24);
-                if(diff >= 0 && diff <= 2) active=true;
-            });
-            const ps = document.getElementById('photo-upload-section');
-            const pl = document.getElementById('nav-photo-link');
-            if(active){ps.style.display='block';pl.style.display='block';}else{ps.style.display='none';pl.style.display='none';}
-        }
         function renderCalendar() {
             const d = new Date(), m = d.getMonth(), y = d.getFullYear();
             document.getElementById('cal-month-year').innerText = `${m+1} / ${y}`;
@@ -488,16 +430,16 @@
                 c.appendChild(div);
             }
         }
-        onValue(ref(db,'events'), s => { eventsCache=s.val()||{}; renderCalendar(); checkActiveEvent(); });
+        onValue(ref(db,'events'), s => { eventsCache=s.val()||{}; renderCalendar(); });
 
-        // --- 5. FORMS SUBMISSION (NO STORAGE VERSION) ---
+        // --- 5. FORMS SUBMISSION ---
         document.getElementById('song-form').addEventListener('submit',e=>{
             e.preventDefault();
             push(ref(db,'requests'),{ name:document.getElementById('req-name').value, artist:document.getElementById('req-artist').value, song:document.getElementById('req-song').value, status:'pending', timestamp:Date.now()})
             .then(()=>{alert("Odesláno!");e.target.reset();});
         });
 
-        // Event Add with Image (Base64)
+        // Event Add with Image (Base64) - Admin only
         document.getElementById('add-event-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-add-event');
@@ -527,43 +469,9 @@
                 document.getElementById('add-event-form').reset();
                 btn.disabled = false; status.style.display = 'none';
             }).catch(err => {
-                alert("Chyba DB (pravděpodobně příliš velký soubor): " + err.message);
+                alert("Chyba DB: " + err.message);
                 btn.disabled = false; status.style.display = 'none';
             });
-        });
-
-        // User Photo Upload (Base64) - NO STORAGE - 20MB LIMIT
-        document.getElementById('user-upload-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const file = document.getElementById('uploader-file').files[0];
-            const social = document.getElementById('uploader-social').value;
-            const status = document.getElementById('upload-status');
-            const btn = document.getElementById('btn-upload');
-            const form = document.getElementById('user-upload-form');
-            const successMsg = document.getElementById('upload-success-msg');
-
-            status.style.display = 'block';
-            btn.disabled = true;
-
-            try {
-                const base64 = await convertToBase64(file);
-                await push(ref(db, 'photos'), {
-                    url: base64, // Zde ukládáme přímo Base64 string
-                    social: social,
-                    timestamp: Date.now()
-                });
-                
-                // Success UI
-                form.style.display = 'none';
-                successMsg.style.display = 'block';
-                form.reset();
-                
-            } catch (err) {
-                alert("Chyba při nahrávání (soubor je asi příliš velký pro DB): " + err.message);
-            } finally {
-                status.style.display = 'none';
-                btn.disabled = false;
-            }
         });
 
     </script>
