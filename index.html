@@ -52,8 +52,6 @@
 
         input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; background: #0f1522; border: 1px solid #334155; color: white; border-radius: 5px; outline: none; transition: 0.3s; }
         input:focus { border-color: var(--primary); }
-
-        /* File Input Styling for Admin */
         input[type="file"] { padding: 10px; background: #1a2236; cursor: pointer; }
 
         /* --- NAVIGATION --- */
@@ -126,25 +124,16 @@
         }
         .upload-box:hover { border-color: var(--primary); background: rgba(0, 242, 234, 0.05); }
 
-        /* Success Message Style */
+        /* Success Message */
         .success-message {
-            display: none;
-            padding: 20px;
-            border-radius: 10px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-            margin-top: 15px;
-            font-weight: bold;
-            animation: fadeIn 0.5s;
+            display: none; padding: 20px; border-radius: 10px;
+            background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success);
+            color: var(--success); margin-top: 15px; font-weight: bold; animation: fadeIn 0.5s;
         }
         .success-message i { font-size: 1.5rem; display: block; margin-bottom: 10px; }
 
-        /* --- DASHBOARD (ADMIN) --- */
-        #dj-panel-overlay {
-            display: none; position: fixed; inset: 0; background: #000; z-index: 2000;
-            overflow: hidden; 
-        }
+        /* --- DASHBOARD --- */
+        #dj-panel-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; overflow: hidden; }
         .dashboard-layout { display: grid; grid-template-columns: 250px 1fr; height: 100vh; }
         .dash-sidebar { background: #111; border-right: 1px solid #333; padding: 20px; display: flex; flex-direction: column; }
         .dash-nav-btn {
@@ -240,22 +229,22 @@
     <section id="photo-upload-section">
         <div class="container">
             <h2 style="text-align:center; color:white;">SDÍLEJ FOTKY Z AKCE</h2>
-            <p style="text-align:center; color:#ccc; margin-bottom:40px;">Byl jsi na akci? Pošli mi fotku! Podporuji soubory až do 20MB.</p>
+            <p style="text-align:center; color:#ccc; margin-bottom:40px;">Byl jsi na akci? Pošli mi fotku! Podpora velkých souborů (až 20MB).</p>
             
             <div class="upload-box">
                 <form id="user-upload-form">
                     <input type="text" id="uploader-social" placeholder="Tvůj Instagram / Facebook (pro kredit)" style="max-width:400px;">
                     <br>
                     <input type="file" id="uploader-file" accept="image/*,video/*" style="max-width:400px;" required>
-                    <p style="font-size:0.8rem; color:#666; margin:10px 0;">Max velikost 20MB</p>
+                    <p style="font-size:0.8rem; color:#666; margin:10px 0;">Max velikost 20MB (Pozor: Nahrávání může chvíli trvat)</p>
                     <br>
                     <button type="submit" id="btn-upload" class="btn btn-primary"><i class="fas fa-camera"></i> NAHRÁT FOTKU</button>
-                    <p id="upload-status" style="margin-top:10px; color: var(--primary); display:none;">Nahrávám soubor...</p>
+                    <p id="upload-status" style="margin-top:10px; color: var(--primary); display:none;">Zpracovávám a nahrávám...</p>
                 </form>
-                
+
                 <div id="upload-success-msg" class="success-message">
                     <i class="fas fa-check-circle"></i>
-                    Děkujeme moc za vasi fotku/video!<br>
+                    Děkujeme moc za vaši fotku/video!<br>
                     <span style="font-size:0.8rem; font-weight:normal;">Váš příspěvek byl úspěšně odeslán DJovi.</span>
                 </div>
             </div>
@@ -305,7 +294,6 @@
             </div>
 
             <div class="dash-content">
-                
                 <div id="tab-new-req" class="dash-section active">
                     <h2>🔴 Nové Žádosti</h2>
                     <div id="list-pending"></div>
@@ -330,7 +318,7 @@
                             <input type="file" id="evt-img-file" accept="image/*">
                             
                             <button type="submit" class="btn btn-success" id="btn-add-event">ULOŽIT DO KALENDÁŘE</button>
-                            <p id="event-upload-status" style="color:var(--primary); display:none;">Nahrávám obrázek a ukládám...</p>
+                            <p id="event-upload-status" style="color:var(--primary); display:none;">Zpracovávám obrázek...</p>
                         </form>
                     </div>
                     <h3>Seznam Akcí</h3>
@@ -338,10 +326,9 @@
                 </div>
 
                 <div id="tab-photos-admin" class="dash-section">
-                    <h2>📸 Fotky z akcí (Cloud Storage)</h2>
+                    <h2>📸 Fotky z akcí (DB Base64)</h2>
                     <div id="admin-photo-grid" class="photo-grid"></div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -349,8 +336,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getDatabase, ref as dbRef, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBV9h5nozB1rD6uGMI3h4TqCJ7WvKh6zFQ",
@@ -366,302 +352,188 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
-        const storage = getStorage(app); 
         const provider = new GoogleAuthProvider();
         const ADMIN_EMAIL = "darqsideee@gmail.com";
 
-        // --- 1. NAVIGATION & SCROLLSPY ---
+        // --- HELPER: BASE64 CONVERTER (Limit 20MB) ---
+        const convertToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                // Limit 20MB
+                if (file.size > 20 * 1024 * 1024) {
+                    reject("Obrázek je příliš velký (Max 20MB).");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = (error) => reject(error);
+            });
+        };
+
+        // --- 1. NAVIGATION ---
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section');
         const indicator = document.querySelector('.nav-indicator');
 
-        function moveIndicator(el) {
-            if(!el) return;
-            indicator.style.width = `${el.offsetWidth}px`;
-            indicator.style.transform = `translateX(${el.offsetLeft}px)`;
-        }
-
+        function moveIndicator(el) { if(!el) return; indicator.style.width = `${el.offsetWidth}px`; indicator.style.transform = `translateX(${el.offsetLeft}px)`; }
         function onScroll() {
             let current = "";
-            sections.forEach(sec => {
-                const sectionTop = sec.offsetTop;
-                if(scrollY >= sectionTop - 150) current = sec.getAttribute('id');
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if(link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                    moveIndicator(link);
-                }
-            });
+            sections.forEach(sec => { if(scrollY >= sec.offsetTop - 150) current = sec.getAttribute('id'); });
+            navLinks.forEach(link => { link.classList.remove('active'); if(link.getAttribute('href').includes(current)) { link.classList.add('active'); moveIndicator(link); } });
         }
         window.addEventListener('scroll', onScroll);
         setTimeout(() => moveIndicator(document.querySelector('.nav-link.active')), 500);
 
-        // --- 2. AUTH & PANEL OPENING ---
+        // --- 2. AUTH ---
         const panelOverlay = document.getElementById('dj-panel-overlay');
         const triggerBtn = document.getElementById('dj-panel-trigger');
 
         onAuthStateChanged(auth, user => {
             if(user && user.email === ADMIN_EMAIL) {
                 triggerBtn.innerHTML = '<i class="fas fa-sliders-h"></i> OTEVŘÍT DJ PANEL';
-                triggerBtn.classList.remove('btn-outline');
-                triggerBtn.classList.add('btn-primary');
+                triggerBtn.classList.replace('btn-outline','btn-primary');
             } else {
                 triggerBtn.innerHTML = '<i class="fas fa-lock"></i> Admin Login';
-                triggerBtn.classList.add('btn-outline');
-                triggerBtn.classList.remove('btn-primary');
+                triggerBtn.classList.replace('btn-primary','btn-outline');
             }
         });
-
         triggerBtn.addEventListener('click', () => {
-            const user = auth.currentUser;
-            if(user && user.email === ADMIN_EMAIL) {
-                panelOverlay.style.display = 'block';
-                loadAdminData();
-            } else {
-                signInWithPopup(auth, provider).then(res => {
-                    if(res.user.email === ADMIN_EMAIL) {
-                        panelOverlay.style.display = 'block';
-                        loadAdminData();
-                    } else {
-                        alert("Neoprávněný přístup.");
-                        signOut(auth);
-                    }
-                });
-            }
+            if(auth.currentUser && auth.currentUser.email === ADMIN_EMAIL) { panelOverlay.style.display = 'block'; loadAdminData(); }
+            else signInWithPopup(auth, provider).then(res => { if(res.user.email===ADMIN_EMAIL) { panelOverlay.style.display='block'; loadAdminData(); } else { alert("Neoprávněný přístup."); signOut(auth); } });
         });
-
         document.getElementById('close-panel-btn').addEventListener('click', () => panelOverlay.style.display='none');
         document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(()=>window.location.reload()));
-
-        window.switchTab = (tabId) => {
-            document.querySelectorAll('.dash-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.querySelectorAll('.dash-nav-btn').forEach(btn => btn.classList.remove('active'));
+        window.switchTab = (id) => {
+            document.querySelectorAll('.dash-section').forEach(el=>el.classList.remove('active'));
+            document.getElementById('tab-'+id).classList.add('active');
+            document.querySelectorAll('.dash-nav-btn').forEach(b=>b.classList.remove('active'));
             event.currentTarget.classList.add('active');
         };
 
-        // --- 4. DATA LOGIC (ADMIN) ---
+        // --- 3. DATA & RENDERING ---
         function renderRequest(key, req, containerId) {
             const container = document.getElementById(containerId);
-            const searchQuery = encodeURIComponent(`${req.song} ${req.artist}`).replace(/%20/g, '+');
-            const googleUrl = `https://www.google.com/search?q=${searchQuery}`;
-
-            const div = document.createElement('div');
-            div.className = `req-card status-${req.status}`;
+            const url = `https://www.google.com/search?q=${encodeURIComponent(req.song+' '+req.artist).replace(/%20/g,'+')}`;
+            const div = document.createElement('div'); div.className=`req-card status-${req.status}`;
             div.innerHTML = `
-                <div>
-                    <h3 style="margin-bottom:5px; color:var(--primary)">${req.song}</h3>
-                    <p style="color:#aaa; font-size:0.9rem;"><i class="fas fa-microphone"></i> ${req.artist}</p>
-                    <p style="color:#666; font-size:0.8rem; margin-top:5px;">Od: ${req.name}</p>
-                </div>
+                <div><h3 style="color:var(--primary)">${req.song}</h3><p>${req.artist} <small>(${req.name})</small></p></div>
                 <div class="req-actions">
-                    <a href="${googleUrl}" target="_blank" class="btn btn-outline" title="Hledat na Google"><i class="fab fa-google"></i></a>
-                    ${req.status !== 'favorite' ? 
-                        `<button onclick="window.setStatus('${key}', 'favorite')" class="btn btn-outline" style="color:gold; border-color:gold;"><i class="fas fa-star"></i></button>` : 
-                        `<button onclick="window.setStatus('${key}', 'pending')" class="btn btn-outline"><i class="fas fa-undo"></i></button>`
-                    }
+                    <a href="${url}" target="_blank" class="btn btn-outline"><i class="fab fa-google"></i></a>
+                    <button onclick="window.setStatus('${key}','${req.status==='favorite'?'pending':'favorite'}')" class="btn btn-outline" style="color:${req.status==='favorite'?'white':'gold'}"><i class="fas fa-star"></i></button>
                     <button onclick="window.delReq('${key}')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                </div>
-            `;
+                </div>`;
             container.appendChild(div);
         }
 
         function loadAdminData() {
-            // Requests
-            onValue(dbRef(db, 'requests'), snap => {
-                document.getElementById('list-pending').innerHTML = '';
-                document.getElementById('list-favorites').innerHTML = '';
-                const data = snap.val();
-                if(data) {
-                    Object.entries(data).reverse().forEach(([k, v]) => {
-                        if(v.status === 'favorite') renderRequest(k, v, 'list-favorites');
-                        else renderRequest(k, v, 'list-pending');
-                    });
-                } else {
-                    document.getElementById('list-pending').innerHTML = '<p style="color:#555">Žádné nové requesty.</p>';
-                }
+            onValue(ref(db, 'requests'), snap => {
+                document.getElementById('list-pending').innerHTML=''; document.getElementById('list-favorites').innerHTML='';
+                const d = snap.val();
+                if(d) Object.entries(d).reverse().forEach(([k,v]) => { if(v.status==='favorite') renderRequest(k,v,'list-favorites'); else renderRequest(k,v,'list-pending'); });
             });
-
-            // Events List
-            onValue(dbRef(db, 'events'), snap => {
-                const list = document.getElementById('admin-event-list');
-                list.innerHTML = '';
-                const data = snap.val();
-                if(data) {
-                    const sorted = Object.entries(data).sort((a,b) => new Date(a[1].date) - new Date(b[1].date));
-                    sorted.forEach(([k, v]) => {
-                        const div = document.createElement('div');
-                        div.style.cssText = "background:#222; padding:10px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;";
-                        div.innerHTML = `
-                            <span><b style="color:var(--primary)">${v.date}</b> - ${v.title}</span>
-                            <button onclick="window.delEvent('${k}')" style="color:red; background:none; border:none; cursor:pointer;"><i class="fas fa-trash"></i></button>
-                        `;
-                        list.appendChild(div);
-                    });
-                }
-            });
-
-            // Photos List
-            onValue(dbRef(db, 'photos'), snap => {
-                const grid = document.getElementById('admin-photo-grid');
-                grid.innerHTML = '';
-                const data = snap.val();
-                if(data) {
-                    Object.entries(data).reverse().forEach(([k, v]) => {
-                        const div = document.createElement('div');
-                        div.className = 'photo-card';
-                        div.innerHTML = `
-                            <img src="${v.url}" alt="Foto">
-                            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-                                <small style="color:#aaa">${v.social || 'Anonym'}</small>
-                                <div>
-                                    <a href="${v.url}" target="_blank" style="color:var(--primary); margin-right:10px;"><i class="fas fa-expand"></i></a>
-                                    <span onclick="window.delPhoto('${k}', '${v.path}')" style="color:red; cursor:pointer;"><i class="fas fa-trash"></i></span>
-                                </div>
-                            </div>
-                        `;
-                        grid.appendChild(div);
-                    });
-                } else {
-                    grid.innerHTML = '<p>Žádné fotky.</p>';
-                }
-            });
-        }
-
-        window.setStatus = (k, s) => update(dbRef(db, `requests/${k}`), { status: s });
-        window.delReq = (k) => remove(dbRef(db, `requests/${k}`));
-        window.delEvent = (k) => { if(confirm("Smazat akci?")) remove(dbRef(db, `events/${k}`)); };
-        
-        window.delPhoto = (key, path) => {
-            if(confirm("Smazat fotku?")) {
-                remove(dbRef(db, `photos/${key}`));
-                if(path) {
-                    const fileRef = storageRef(storage, path);
-                    deleteObject(fileRef).catch(err => console.log("Chyba při mazání souboru:", err));
-                }
-            }
-        };
-
-        // --- 5. CALENDAR ---
-        let eventsCache = {};
-        
-        function checkActiveEvent() {
-            const today = new Date(); today.setHours(0,0,0,0);
-            let isActive = false;
-            Object.values(eventsCache).forEach(ev => {
-                const evDate = new Date(ev.date); evDate.setHours(0,0,0,0);
-                const diffTime = today - evDate; 
-                const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                if (diffDays >= 0 && diffDays <= 2) isActive = true;
-            });
-            const photoSection = document.getElementById('photo-upload-section');
-            const photoLink = document.getElementById('nav-photo-link');
-            if(isActive) { photoSection.style.display = 'block'; photoLink.style.display = 'block'; } 
-            else { photoSection.style.display = 'none'; photoLink.style.display = 'none'; }
-        }
-
-        function renderCalendar() {
-            const date = new Date(); const month = date.getMonth(); const year = date.getFullYear();
-            document.getElementById('cal-month-year').innerText = `${month+1} / ${year}`;
-            const daysContainer = document.getElementById('cal-days-grid'); daysContainer.innerHTML = "";
-            const firstDay = new Date(year, month, 1).getDay();
-            const adjFirst = firstDay === 0 ? 6 : firstDay - 1;
-            const daysInMonth = new Date(year, month+1, 0).getDate();
-
-            for(let i=0; i<adjFirst; i++) daysContainer.innerHTML += '<div></div>';
-
-            for(let d=1; d<=daysInMonth; d++) {
-                const div = document.createElement('div'); div.className = 'day-cell'; div.innerText = d;
-                const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                let ev = null;
-                Object.values(eventsCache).forEach(e => { if(e.date === dateKey) ev = e; });
-                if(ev) div.classList.add('has-event');
-                div.addEventListener('click', () => {
-                     document.querySelectorAll('.day-cell').forEach(c=>c.classList.remove('active-day'));
-                     div.classList.add('active-day');
-                     if(ev) {
-                         document.getElementById('event-box-content').innerHTML = `
-                            <h3 style="color:var(--primary)">${ev.title}</h3><p>${ev.desc}</p>
-                            ${ev.img ? `<img src="${ev.img}" style="width:100%; border-radius:5px; margin-top:10px;">` : ''}`;
-                     } else { document.getElementById('event-box-content').innerHTML = '<p>Volný termín.</p>'; }
-                     document.getElementById('sel-day-num').innerText = d;
+            onValue(ref(db, 'events'), snap => {
+                const l = document.getElementById('admin-event-list'); l.innerHTML='';
+                const d = snap.val();
+                if(d) Object.entries(d).sort((a,b)=>new Date(a[1].date)-new Date(b[1].date)).forEach(([k,v]) => {
+                    l.innerHTML+=`<div style="background:#222;padding:10px;margin-bottom:5px;display:flex;justify-content:space-between"><span><b style="color:var(--primary)">${v.date}</b> - ${v.title}</span><button onclick="window.delEvent('${k}')" style="color:red;background:none;border:none"><i class="fas fa-trash"></i></button></div>`;
                 });
-                daysContainer.appendChild(div);
-            }
+            });
+            onValue(ref(db, 'photos'), snap => {
+                const g = document.getElementById('admin-photo-grid'); g.innerHTML='';
+                const d = snap.val();
+                if(d) Object.entries(d).reverse().forEach(([k,v]) => {
+                    g.innerHTML += `<div class="photo-card"><img src="${v.url}" alt="Foto">
+                    <div style="margin-top:10px;display:flex;justify-content:space-between"><small>${v.social || 'Anonym'}</small>
+                    <div><a href="${v.url}" download="foto.jpg" style="color:var(--primary);margin-right:10px"><i class="fas fa-download"></i></a><span onclick="window.delPhoto('${k}')" style="color:red;cursor:pointer"><i class="fas fa-trash"></i></span></div></div></div>`;
+                });
+            });
         }
 
-        onValue(dbRef(db, 'events'), snap => {
-            eventsCache = snap.val() || {};
-            renderCalendar();
-            checkActiveEvent();
-        });
+        window.setStatus = (k,s) => update(ref(db, `requests/${k}`), {status:s});
+        window.delReq = (k) => remove(ref(db, `requests/${k}`));
+        window.delEvent = (k) => { if(confirm("Smazat?")) remove(ref(db, `events/${k}`)); };
+        window.delPhoto = (k) => { if(confirm("Smazat fotku?")) remove(ref(db, `photos/${k}`)); };
 
-        // --- 6. FORMS ---
-        document.getElementById('song-form').addEventListener('submit', (e) => {
+        // --- 4. CALENDAR ---
+        let eventsCache = {};
+        function checkActiveEvent() {
+            const t = new Date(); t.setHours(0,0,0,0);
+            let active = false;
+            Object.values(eventsCache).forEach(ev => {
+                const ed = new Date(ev.date); ed.setHours(0,0,0,0);
+                const diff = (t-ed)/(1000*60*60*24);
+                if(diff >= 0 && diff <= 2) active=true;
+            });
+            const ps = document.getElementById('photo-upload-section');
+            const pl = document.getElementById('nav-photo-link');
+            if(active){ps.style.display='block';pl.style.display='block';}else{ps.style.display='none';pl.style.display='none';}
+        }
+        function renderCalendar() {
+            const d = new Date(), m = d.getMonth(), y = d.getFullYear();
+            document.getElementById('cal-month-year').innerText = `${m+1} / ${y}`;
+            const c = document.getElementById('cal-days-grid'); c.innerHTML='';
+            const f = new Date(y,m,1).getDay(), adj=f===0?6:f-1, dim=new Date(y,m+1,0).getDate();
+            for(let i=0;i<adj;i++) c.innerHTML+='<div></div>';
+            for(let i=1;i<=dim;i++){
+                const div=document.createElement('div'); div.className='day-cell'; div.innerText=i;
+                const k=`${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                let ev=null; Object.values(eventsCache).forEach(e=>{if(e.date===k)ev=e;});
+                if(ev) div.classList.add('has-event');
+                div.onclick = () => {
+                    document.querySelectorAll('.day-cell').forEach(el=>el.classList.remove('active-day'));
+                    div.classList.add('active-day');
+                    document.getElementById('sel-day-num').innerText = i;
+                    document.getElementById('event-box-content').innerHTML = ev ? `<h3 style="color:var(--primary)">${ev.title}</h3><p>${ev.desc}</p>${ev.img?`<img src="${ev.img}" style="width:100%;margin-top:10px;border-radius:5px">`:''}` : '<p>Volný termín.</p>';
+                };
+                c.appendChild(div);
+            }
+        }
+        onValue(ref(db,'events'), s => { eventsCache=s.val()||{}; renderCalendar(); checkActiveEvent(); });
+
+        // --- 5. FORMS SUBMISSION (NO STORAGE VERSION) ---
+        document.getElementById('song-form').addEventListener('submit',e=>{
             e.preventDefault();
-            push(dbRef(db, 'requests'), {
-                name: document.getElementById('req-name').value,
-                artist: document.getElementById('req-artist').value,
-                song: document.getElementById('req-song').value,
-                status: 'pending',
-                timestamp: Date.now()
-            }).then(()=> { alert("Odesláno!"); e.target.reset(); });
+            push(ref(db,'requests'),{ name:document.getElementById('req-name').value, artist:document.getElementById('req-artist').value, song:document.getElementById('req-song').value, status:'pending', timestamp:Date.now()})
+            .then(()=>{alert("Odesláno!");e.target.reset();});
         });
 
-        // ADMIN: PŘIDÁNÍ AKCE S OBRÁZKEM (SOUBOR)
-        document.getElementById('add-event-form').addEventListener('submit', (e) => {
+        // Event Add with Image (Base64)
+        document.getElementById('add-event-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-add-event');
             const status = document.getElementById('event-upload-status');
-            const title = document.getElementById('evt-title').value;
-            const date = document.getElementById('evt-date').value;
-            const desc = document.getElementById('evt-desc').value;
             const file = document.getElementById('evt-img-file').files[0];
+            
+            btn.disabled = true; status.style.display = 'block';
 
-            btn.disabled = true;
-            status.style.display = "block";
-
-            // Funkce pro uložení do DB (volá se po nahrání nebo rovnou, pokud není obrázek)
-            const saveToDb = (imageUrl) => {
-                push(dbRef(db, 'events'), {
-                    title: title,
-                    date: date,
-                    desc: desc,
-                    img: imageUrl
-                }).then(() => {
-                    alert("Akce přidána!");
-                    document.getElementById('add-event-form').reset();
-                    btn.disabled = false;
-                    status.style.display = "none";
-                });
-            };
-
+            let imgData = "";
             if (file) {
-                // Pokud je soubor, nejdřív nahrát do Storage
-                const uniqueName = Date.now() + '_event_' + file.name;
-                const fileRef = storageRef(storage, 'event_images/' + uniqueName);
-                
-                uploadBytes(fileRef, file).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((url) => {
-                        saveToDb(url);
-                    });
-                }).catch(err => {
-                    console.error(err);
-                    alert("Chyba při nahrávání obrázku.");
-                    btn.disabled = false;
-                    status.style.display = "none";
-                });
-            } else {
-                // Bez obrázku
-                saveToDb("");
+                try {
+                    imgData = await convertToBase64(file);
+                } catch (err) {
+                    alert(err);
+                    btn.disabled = false; status.style.display = 'none';
+                    return;
+                }
             }
+
+            push(ref(db, 'events'), {
+                title: document.getElementById('evt-title').value,
+                date: document.getElementById('evt-date').value,
+                desc: document.getElementById('evt-desc').value,
+                img: imgData
+            }).then(() => {
+                alert("Akce přidána!");
+                document.getElementById('add-event-form').reset();
+                btn.disabled = false; status.style.display = 'none';
+            }).catch(err => {
+                alert("Chyba DB (pravděpodobně příliš velký soubor): " + err.message);
+                btn.disabled = false; status.style.display = 'none';
+            });
         });
 
-        // --- UPLOAD LOGIC PRO UŽIVATELE (OPRAVENO: SUCCESS MESSAGE) ---
-        document.getElementById('user-upload-form').addEventListener('submit', (e) => {
+        // User Photo Upload (Base64) - NO STORAGE - 20MB LIMIT
+        document.getElementById('user-upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const file = document.getElementById('uploader-file').files[0];
             const social = document.getElementById('uploader-social').value;
@@ -670,42 +542,28 @@
             const form = document.getElementById('user-upload-form');
             const successMsg = document.getElementById('upload-success-msg');
 
-            // 20MB Limit
-            if(file.size > 20971520) { 
-                alert("Soubor je příliš velký (max 20MB).");
-                return;
-            }
-
             status.style.display = 'block';
             btn.disabled = true;
 
-            const uniqueName = Date.now() + '_' + file.name;
-            const fileRef = storageRef(storage, 'uploads/' + uniqueName);
-
-            uploadBytes(fileRef, file).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    push(dbRef(db, 'photos'), {
-                        url: url,
-                        social: social,
-                        path: snapshot.metadata.fullPath,
-                        timestamp: Date.now()
-                    }).then(() => {
-                        // ÚSPĚCH - Skrýt formulář, ukázat zprávu
-                        form.style.display = 'none';
-                        successMsg.style.display = 'block';
-                        
-                        // Reset formuláře pro příště (kdyby reload)
-                        form.reset();
-                        status.style.display = 'none';
-                        btn.disabled = false;
-                    });
+            try {
+                const base64 = await convertToBase64(file);
+                await push(ref(db, 'photos'), {
+                    url: base64, // Zde ukládáme přímo Base64 string
+                    social: social,
+                    timestamp: Date.now()
                 });
-            }).catch(err => {
-                console.error(err);
-                alert("Chyba nahrávání: " + err.message);
+                
+                // Success UI
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+                form.reset();
+                
+            } catch (err) {
+                alert("Chyba při nahrávání (soubor je asi příliš velký pro DB): " + err.message);
+            } finally {
                 status.style.display = 'none';
                 btn.disabled = false;
-            });
+            }
         });
 
     </script>
