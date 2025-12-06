@@ -28,7 +28,6 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
-            /* Ambient Background Effects */
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(0, 242, 234, 0.08) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(255, 0, 80, 0.08) 0%, transparent 40%);
@@ -73,7 +72,7 @@
         .hero h1 { font-size: 4.5rem; line-height: 1; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 20px; }
         .hero p { font-size: 1.3rem; color: #e2e8f0; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
-        /* --- STATS BAR (Fill space) --- */
+        /* --- STATS BAR --- */
         .stats-bar {
             display: flex; justify-content: center; gap: 50px; padding: 40px 0;
             background: #0f1522; border-bottom: 1px solid var(--border);
@@ -82,7 +81,7 @@
         .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--primary); font-family: 'Rajdhani'; }
         .stat-label { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
 
-        /* --- CALENDAR SYSTEM (INTERACTIVE) --- */
+        /* --- CALENDAR SYSTEM --- */
         #calendar-section { padding: 80px 0; }
         .calendar-container {
             display: grid; grid-template-columns: 2fr 1fr; gap: 30px;
@@ -90,7 +89,6 @@
             border-radius: 15px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
         
-        /* Left: Grid */
         .cal-main { padding: 30px; }
         .cal-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .month-title { font-size: 2rem; color: white; }
@@ -114,7 +112,6 @@
         }
         .day-cell.today { border: 1px solid var(--text-muted); }
 
-        /* Right: Details Panel */
         .cal-details {
             background: rgba(0,0,0,0.3); padding: 30px; border-left: 1px solid var(--border);
             display: flex; flex-direction: column; justify-content: center;
@@ -145,13 +142,24 @@
         footer { background: #05070a; padding: 60px 0; border-top: 1px solid var(--border); text-align: center; }
         .footer-socials a { color: white; font-size: 1.5rem; margin: 0 15px; transition: 0.3s; }
         .footer-socials a:hover { color: var(--primary); transform: scale(1.2); }
+        
+        /* Dynamic Button Styles */
+        #admin-trigger { margin-top:20px; color:#333; cursor:pointer; font-size:0.8rem; display: inline-block; transition: 0.3s; }
+        #admin-trigger.active-admin {
+            color: var(--primary);
+            font-weight: bold;
+            border: 1px solid var(--primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(0, 242, 234, 0.1);
+            text-shadow: 0 0 10px var(--primary);
+        }
 
         /* --- ADMIN OVERLAY --- */
         #admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; padding: 20px; overflow-y: auto; }
         .admin-panel { max-width: 900px; margin: 40px auto; background: #111; padding: 30px; border: 1px solid #333; border-radius: 10px; }
         .req-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .calendar-container { grid-template-columns: 1fr; }
@@ -205,7 +213,6 @@
     <section id="calendar-section">
         <div class="container">
             <h2 style="text-align: center; margin-bottom: 50px;">KALENDÁŘ AKCÍ</h2>
-            
             <div class="calendar-container">
                 <div class="cal-main">
                     <div class="cal-controls">
@@ -213,19 +220,15 @@
                         <div class="month-title" id="cal-month-year">...</div>
                         <button class="cal-btn" id="next-month"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    
                     <div class="cal-grid-header">
                         <div>PO</div><div>ÚT</div><div>ST</div><div>ČT</div><div>PÁ</div><div>SO</div><div>NE</div>
                     </div>
-                    <div class="cal-grid-days" id="cal-days-grid">
-                        </div>
+                    <div class="cal-grid-days" id="cal-days-grid"></div>
                 </div>
-
                 <div class="cal-details">
                     <div id="detail-view">
                         <div class="detail-date" id="sel-day-num">--</div>
                         <div class="detail-month" id="sel-month-name">VYBER DATUM</div>
-                        
                         <div class="event-status-box" id="event-box-content">
                             <p style="color:#888;">Klikni na den v kalendáři pro zobrazení detailů.</p>
                         </div>
@@ -247,7 +250,6 @@
                     <div><i class="fas fa-music" style="color:var(--accent); font-size: 2rem;"></i><br><small>Hity</small></div>
                 </div>
             </div>
-            
             <div class="req-form-wrap">
                 <form id="song-form">
                     <input type="text" id="req-name" placeholder="Tvoje jméno" required>
@@ -266,12 +268,12 @@
                 <div class="footer-socials">
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="mailto:darqsidee@gmail.com"><i class="fas fa-envelope"></i></a>
+                    <a href="mailto:darqsideee@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
                 <p style="color: #555; margin-top: 30px; font-size: 0.8rem;">
                     &copy; 2025 DJ MANCHINI. Všechna práva vyhrazena.
                 </p>
-                <div id="admin-trigger" style="margin-top:20px; color:#333; cursor:pointer; font-size:0.8rem;">Admin Login</div>
+                <div id="admin-trigger">Admin Login</div>
             </div>
         </footer>
     </section>
@@ -306,8 +308,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBV9h5nozB1rD6uGMI3h4TqCJ7WvKh6zFQ",
@@ -325,14 +327,62 @@
         const db = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
-        // --- CALENDAR LOGIC START ---
+        // ** ZMĚNA EMAULU ZDE **
+        const ADMIN_EMAIL = "darqsideee@gmail.com"; 
+
+        // --- AUTH & BUTTON LOGIC ---
+        const adminBtn = document.getElementById('admin-trigger');
+        const overlay = document.getElementById('admin-overlay');
+
+        // Sleduje stav přihlášení a mění tlačítko
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email === ADMIN_EMAIL) {
+                // Jsi Admin: Změnit tlačítko na panel
+                adminBtn.innerHTML = '<i class="fas fa-sliders-h"></i> DJ PANEL';
+                adminBtn.classList.add('active-admin');
+            } else {
+                // Nejsi Admin nebo odhlášen
+                adminBtn.innerHTML = 'Admin Login';
+                adminBtn.classList.remove('active-admin');
+            }
+        });
+
+        // Kliknutí na tlačítko
+        adminBtn.addEventListener('click', () => {
+            const user = auth.currentUser;
+            
+            if (user && user.email === ADMIN_EMAIL) {
+                // Pokud už je přihlášený -> Otevřít Panel
+                overlay.style.display = "block";
+            } else {
+                // Pokud není přihlášený -> Login Popup
+                signInWithPopup(auth, provider).then((result) => {
+                    if (result.user.email !== ADMIN_EMAIL) {
+                        alert("Přístup zamítnut. Tento email není veden jako DJ.");
+                        signOut(auth);
+                    } else {
+                        // Úspěšné přihlášení -> onAuthStateChanged změní tlačítko samo
+                        overlay.style.display = "block";
+                    }
+                }).catch((err) => console.error(err));
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                overlay.style.display = 'none';
+                alert("Odhlášeno.");
+            });
+        });
         
+        document.getElementById('close-admin').addEventListener('click', () => overlay.style.display='none');
+
+        // --- CALENDAR LOGIC ---
         let currentDate = new Date();
-        // Omezení: aktuální měsíc (min) a +2 měsíce (max)
         const initialDate = new Date();
         const maxFutureMonths = 2;
-        let eventsData = {}; // Cache pro eventy
-
+        let eventsData = {}; 
         const monthNames = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 
         function renderCalendar() {
@@ -341,11 +391,9 @@
 
             document.getElementById('cal-month-year').innerText = `${monthNames[month]} ${year}`;
             
-            // Navigace omezení
             const prevBtn = document.getElementById('prev-month');
             const nextBtn = document.getElementById('next-month');
             
-            // Logika pro tlačítka (nesmí jít do minulosti před tento měsíc, ani moc do budoucna)
             const isSameMonth = initialDate.getMonth() === month && initialDate.getFullYear() === year;
             prevBtn.disabled = isSameMonth;
 
@@ -357,30 +405,25 @@
             const daysContainer = document.getElementById('cal-days-grid');
             daysContainer.innerHTML = "";
 
-            const firstDayIndex = new Date(year, month, 1).getDay(); // 0 = Ne
-            const adjustedFirstDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1; // 0 = Po
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const adjustedFirstDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1; 
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-            // Prázdné buňky
             for(let i=0; i<adjustedFirstDay; i++) {
                 daysContainer.innerHTML += `<div></div>`;
             }
 
-            // Dny
             for(let d=1; d<=daysInMonth; d++) {
                 const dayDiv = document.createElement('div');
                 dayDiv.className = 'day-cell';
                 dayDiv.innerText = d;
                 
-                // Formát YYYY-MM-DD
                 const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
                 
-                // Dnes?
                 if(d === initialDate.getDate() && month === initialDate.getMonth() && year === initialDate.getFullYear()) {
                     dayDiv.classList.add('today');
                 }
 
-                // Hledání eventu
                 let foundEvent = null;
                 if(eventsData) {
                     Object.values(eventsData).forEach(ev => {
@@ -390,9 +433,7 @@
 
                 if(foundEvent) dayDiv.classList.add('has-event');
 
-                // Click Handler
                 dayDiv.addEventListener('click', () => {
-                    // Odznačit ostatní
                     document.querySelectorAll('.day-cell').forEach(c => c.classList.remove('active-day'));
                     dayDiv.classList.add('active-day');
                     showEventDetails(d, month, year, foundEvent);
@@ -405,7 +446,6 @@
         function showEventDetails(day, month, year, event) {
             document.getElementById('sel-day-num').innerText = day;
             document.getElementById('sel-month-name').innerText = monthNames[month];
-            
             const contentBox = document.getElementById('event-box-content');
             
             if(event) {
@@ -418,7 +458,7 @@
                 contentBox.innerHTML = `
                     <span class="status-badge status-free">VOLNÝ TERMÍN</span>
                     <p style="margin-top:15px;">Na tento den není plánována žádná akce.</p>
-                    <a href="mailto:darqsidee@gmail.com?subject=Poptavka terminu ${day}.${month+1}.${year}" class="btn btn-outline" style="margin-top:20px; display:inline-block; font-size:0.8rem;">Poptat termín</a>
+                    <a href="mailto:darqsideee@gmail.com?subject=Poptavka terminu ${day}.${month+1}.${year}" class="btn btn-outline" style="margin-top:20px; display:inline-block; font-size:0.8rem;">Poptat termín</a>
                 `;
             }
         }
@@ -433,29 +473,10 @@
             renderCalendar();
         });
 
-        // --- FIREBASE EVENTS LOAD ---
+        // --- FIREBASE DATA ---
         onValue(ref(db, 'events'), (snap) => {
             eventsData = snap.val() || {};
-            renderCalendar(); // Překreslit při změně dat
-        });
-
-        // --- USER: REQUEST ---
-        document.getElementById('song-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            push(ref(db, 'requests'), {
-                name: document.getElementById('req-name').value,
-                artist: document.getElementById('req-artist').value,
-                song: document.getElementById('req-song').value,
-                status: 'pending',
-                timestamp: Date.now()
-            }).then(() => { alert("Odesláno!"); e.target.reset(); });
-        });
-
-        // --- ADMIN ---
-        const overlay = document.getElementById('admin-overlay');
-        document.getElementById('admin-trigger').addEventListener('click', () => {
-             if(!auth.currentUser) signInWithPopup(auth, provider);
-             else checkAdmin();
+            renderCalendar();
         });
 
         onValue(ref(db, 'requests'), (snap) => {
@@ -465,6 +486,18 @@
             if(d) Object.entries(d).reverse().forEach(([k,v]) => {
                 list.innerHTML += `<div class="req-row"><div><b>${v.song}</b><br><small>${v.name}</small></div> <button onclick="window.del('${k}')" style="color:red;border:none;background:none;cursor:pointer;">X</button></div>`;
             });
+        });
+
+        // --- FORMS ---
+        document.getElementById('song-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            push(ref(db, 'requests'), {
+                name: document.getElementById('req-name').value,
+                artist: document.getElementById('req-artist').value,
+                song: document.getElementById('req-song').value,
+                status: 'pending',
+                timestamp: Date.now()
+            }).then(() => { alert("Odesláno!"); e.target.reset(); });
         });
 
         document.getElementById('add-event-form').addEventListener('submit', (e) => {
@@ -478,24 +511,9 @@
             document.getElementById('add-event-form').reset();
         });
 
-        // Auth Listener pro zobrazení adminu
-        auth.onAuthStateChanged(user => {
-            if(user && user.email === "darqsidee@gmail.com") {
-                // Je přihlášen admin
-            }
-        });
-
-        function checkAdmin() {
-            if(auth.currentUser?.email === "darqsidee@gmail.com") overlay.style.display = "block";
-            else alert("Nejste oprávněn.");
-        }
-
-        document.getElementById('close-admin').addEventListener('click', () => overlay.style.display='none');
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(()=> overlay.style.display='none'));
-
         window.del = (k) => remove(ref(db, 'requests/'+k));
         
-        // Mobile Menu Logic
+        // Mobile Menu
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('nav-links').classList.toggle('active');
         });
