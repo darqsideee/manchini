@@ -4,313 +4,258 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DJ MANCHINI | Official Site</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- DESIGN SYSTEM --- */
         :root {
-            --bg-dark: #0a0e17;
-            --bg-card: rgba(30, 41, 59, 0.7);
-            --primary: #00f2ea;
-            --accent: #ff0050;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --border: rgba(255,255,255,0.1);
-            --glass: rgba(15, 23, 42, 0.6);
+            --primary: #00f2ea; /* Cyan */
+            --secondary: #ff0050; /* Neon Red/Pink */
+            --bg: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text: #ffffff;
+            --glass: rgba(20, 20, 20, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
         
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 242, 234, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 80, 0.08) 0%, transparent 40%);
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 242, 234, 0.1) 0%, transparent 20%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 0, 80, 0.1) 0%, transparent 20%);
         }
 
-        h1, h2, h3 { font-family: 'Rajdhani', sans-serif; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Buttons */
-        .btn { padding: 12px 30px; border-radius: 4px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; display: inline-block; transition: 0.3s; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
-        .btn-primary { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(0, 242, 234, 0.3); }
-        .btn-primary:hover { background: #fff; box-shadow: 0 0 25px rgba(0, 242, 234, 0.6); }
-        .btn-outline { border: 1px solid var(--border); background: transparent; color: white; }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        /* --- Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 10px var(--primary); } 50% { box-shadow: 0 0 20px var(--primary), 0 0 10px var(--secondary); } 100% { box-shadow: 0 0 10px var(--primary); } }
 
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; width: 100%; height: 80px;
-            background: rgba(10, 14, 23, 0.85); backdrop-filter: blur(15px);
-            z-index: 100; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center;
-        }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo { font-size: 1.8rem; font-weight: 900; color: white; }
-        .logo span { color: var(--primary); }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { color: #ccc; text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
-        .hamburger { display: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .anim-entry { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(to bottom, rgba(10,14,23,0.3), rgba(10,14,23,1)), 
-                        url('https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=2070&auto=format&fit=crop'); 
-            background-size: cover;
-            background-position: center;
-            display: flex; align-items: center; justify-content: center; text-align: center;
+        /* --- Typography & Layout --- */
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* --- Hero Section --- */
+        header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             position: relative;
         }
-        .hero h1 { font-size: 4.5rem; line-height: 1; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 20px; }
-        .hero p { font-size: 1.3rem; color: #e2e8f0; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-
-        /* --- STATS BAR --- */
-        .stats-bar {
-            display: flex; justify-content: center; gap: 50px; padding: 40px 0;
-            background: #0f1522; border-bottom: 1px solid var(--border);
-        }
-        .stat-item { text-align: center; }
-        .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--primary); font-family: 'Rajdhani'; }
-        .stat-label { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
-
-        /* --- CALENDAR SYSTEM --- */
-        #calendar-section { padding: 80px 0; }
-        .calendar-container {
-            display: grid; grid-template-columns: 2fr 1fr; gap: 30px;
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 15px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
         
-        .cal-main { padding: 30px; }
-        .cal-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .month-title { font-size: 2rem; color: white; }
-        .cal-btn { background: transparent; border: 1px solid var(--border); color: var(--primary); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
-        .cal-btn:hover:not(:disabled) { background: var(--primary); color: black; }
-        .cal-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 10px; color: var(--text-muted); font-size: 0.8rem; font-weight: bold; }
-        .cal-grid-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+        h1 { font-size: 3.5rem; text-shadow: 0 0 20px var(--primary); margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; color: #ccc; margin-bottom: 30px; }
         
-        .day-cell {
-            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.03); border-radius: 6px; cursor: pointer;
-            transition: 0.2s; position: relative; border: 1px solid transparent;
-        }
-        .day-cell:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); }
-        .day-cell.active-day { background: var(--primary); color: black; font-weight: bold; box-shadow: 0 0 15px var(--primary); }
-        .day-cell.has-event::after {
-            content: ''; position: absolute; bottom: 5px; width: 6px; height: 6px;
-            background: var(--accent); border-radius: 50%;
-        }
-        .day-cell.today { border: 1px solid var(--text-muted); }
-
-        .cal-details {
-            background: rgba(0,0,0,0.3); padding: 30px; border-left: 1px solid var(--border);
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        .detail-date { font-size: 3rem; font-weight: 900; line-height: 1; color: var(--primary); margin-bottom: 5px; font-family: 'Rajdhani'; }
-        .detail-month { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; color: #fff; }
-        .event-status-box { padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid var(--border); min-height: 200px; }
-        .status-badge { display: inline-block; padding: 5px 10px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; border-radius: 4px; margin-bottom: 10px; }
-        .status-free { background: rgba(0, 255, 0, 0.1); color: #0f0; border: 1px solid #0f0; }
-        .status-busy { background: rgba(255, 0, 80, 0.1); color: #ff0050; border: 1px solid #ff0050; }
-
-        /* --- REQUEST SECTION --- */
-        .req-section {
-            padding: 80px 0;
-            background: linear-gradient(to right, #0a0e17, #111827);
-            border-top: 1px solid var(--border);
-        }
-        .req-container {
-            display: flex; flex-wrap: wrap; gap: 40px; align-items: center;
-        }
-        .req-text { flex: 1; min-width: 300px; }
-        .req-form-wrap { flex: 1; min-width: 300px; background: var(--bg-card); padding: 40px; border-radius: 15px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
-        
-        input { width: 100%; padding: 15px; margin-bottom: 15px; background: #0f1522; border: 1px solid #334155; color: white; border-radius: 5px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 242, 234, 0.1); }
-
-        /* --- FOOTER --- */
-        footer { background: #05070a; padding: 60px 0; border-top: 1px solid var(--border); text-align: center; }
-        .footer-socials a { color: white; font-size: 1.5rem; margin: 0 15px; transition: 0.3s; }
-        .footer-socials a:hover { color: var(--primary); transform: scale(1.2); }
-        
-        /* Dynamic Button Styles */
-        #admin-trigger { margin-top:20px; color:#333; cursor:pointer; font-size:0.8rem; display: inline-block; transition: 0.3s; }
-        #admin-trigger.active-admin {
+        .cta-btn {
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--primary);
             color: var(--primary);
             font-weight: bold;
-            border: 1px solid var(--primary);
-            padding: 8px 15px;
-            border-radius: 20px;
-            background: rgba(0, 242, 234, 0.1);
-            text-shadow: 0 0 10px var(--primary);
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+        .cta-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+
+        /* --- Sections --- */
+        section { padding: 60px 0; border-bottom: 1px solid #222; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--secondary); }
+
+        /* --- Calendar Grid --- */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .event-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+        .event-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+        .event-date { font-weight: bold; color: var(--primary); font-size: 1.1rem; }
+        .event-img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; margin-top: 10px; display: none; } 
+        .event-img.show { display: block; }
+
+        /* --- Request Form --- */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        input:focus { outline: none; border-color: var(--primary); }
+        button.submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--secondary);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
 
-        /* --- ADMIN OVERLAY --- */
-        #admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; padding: 20px; overflow-y: auto; }
-        .admin-panel { max-width: 900px; margin: 40px auto; background: #111; padding: 30px; border: 1px solid #333; border-radius: 10px; }
-        .req-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+        /* --- Footer --- */
+        footer { padding: 40px 20px; text-align: center; font-size: 0.9rem; color: #666; }
+        .social-links a { color: white; font-size: 1.5rem; margin: 0 10px; transition: color 0.3s; }
+        .social-links a:hover { color: var(--primary); }
+        #admin-trigger { cursor: pointer; margin-top: 20px; display: inline-block; font-size: 0.8rem; }
 
+        /* --- ADMIN PANEL --- */
+        #admin-panel {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000000;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #333; }
+        .close-admin { color: red; cursor: pointer; font-size: 1.5rem; }
+        
+        .request-list-item {
+            background: #111;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #333;
+        }
+        .request-list-item.fav { border-color: gold; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+        .req-actions button { margin-left: 5px; padding: 5px 10px; cursor: pointer; border: none; border-radius: 4px; }
+        .btn-fav { background: gold; color: black; }
+        .btn-del { background: red; color: white; }
+        .req-info a { color: var(--primary); text-decoration: none; font-size: 0.8rem; }
+
+        /* Mobile Optimization */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .calendar-container { grid-template-columns: 1fr; }
-            .cal-details { border-left: none; border-top: 1px solid var(--border); }
-            .stats-bar { flex-direction: column; gap: 30px; }
-            .nav-links { display: none; position: absolute; top: 80px; left: 0; width: 100%; background: #0a0e17; flex-direction: column; padding: 20px; text-align: center; }
-            .nav-links.active { display: flex; }
-            .hamburger { display: block; }
+            h1 { font-size: 2.5rem; }
+            .request-list-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .req-actions { width: 100%; display: flex; justify-content: flex-end; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="container nav-content">
-            <div class="logo">DJ <span>MANCHINI</span></div>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#calendar-section">Kalendář</a></li>
-                <li><a href="#requests">Zahrát Song</a></li>
-                <li><a href="#contact">Kontakt</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+    <header>
+        <div class="anim-entry">
+            <h1>DJ MANCHINI</h1>
+            <p class="subtitle">Sound Engineer & Professional DJ</p>
+            <a href="#request" class="cta-btn delay-1">ZAHRÁT PÍSNIČKU</a>
         </div>
-    </nav>
+    </header>
 
-    <section id="home" class="hero">
+    <section id="calendar">
         <div class="container">
-            <h1 class="anim-fade">NEXT LEVEL<br><span style="color:var(--primary)">AUDIO EXPERIENCE</span></h1>
-            <p>Profesionální ozvučení, moderování a DJing pro tvůj event.</p>
-            <a href="#calendar-section" class="btn btn-primary">OVĚŘIT TERMÍN</a>
-            <a href="#requests" class="btn btn-outline" style="margin-left: 15px;">SONG NA PŘÁNÍ</a>
-        </div>
-    </section>
-
-    <div class="stats-bar">
-        <div class="stat-item">
-            <div class="stat-num">10+</div>
-            <div class="stat-label">Let zkušeností</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num">500+</div>
-            <div class="stat-label">Odehraných akcí</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num">100%</div>
-            <div class="stat-label">Spolehlivost</div>
-        </div>
-    </div>
-
-    <section id="calendar-section">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 50px;">KALENDÁŘ AKCÍ</h2>
-            <div class="calendar-container">
-                <div class="cal-main">
-                    <div class="cal-controls">
-                        <button class="cal-btn" id="prev-month"><i class="fas fa-chevron-left"></i></button>
-                        <div class="month-title" id="cal-month-year">...</div>
-                        <button class="cal-btn" id="next-month"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <div class="cal-grid-header">
-                        <div>PO</div><div>ÚT</div><div>ST</div><div>ČT</div><div>PÁ</div><div>SO</div><div>NE</div>
-                    </div>
-                    <div class="cal-grid-days" id="cal-days-grid"></div>
-                </div>
-                <div class="cal-details">
-                    <div id="detail-view">
-                        <div class="detail-date" id="sel-day-num">--</div>
-                        <div class="detail-month" id="sel-month-name">VYBER DATUM</div>
-                        <div class="event-status-box" id="event-box-content">
-                            <p style="color:#888;">Klikni na den v kalendáři pro zobrazení detailů.</p>
-                        </div>
-                    </div>
+            <h2 class="section-title anim-entry">KALENDÁŘ AKCÍ</h2>
+            <div id="events-container" class="calendar-grid">
+                <div class="event-card anim-entry delay-2">
+                    <p>Načítám akce...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="requests" class="req-section">
-        <div class="container req-container">
-            <div class="req-text">
-                <h2>CHCEŠ ZAHRÁT PÍSNIČKU?</h2>
-                <p style="color: #aaa; margin-bottom: 20px; font-size: 1.1rem;">
-                    Jsem online a vidím tvoje přání okamžitě. Napiš, co ti udělá radost na parketu.
-                </p>
-                <div style="display: flex; gap: 20px; margin-top: 30px;">
-                    <div><i class="fas fa-bolt" style="color:var(--primary); font-size: 2rem;"></i><br><small>Rychle</small></div>
-                    <div><i class="fas fa-music" style="color:var(--accent); font-size: 2rem;"></i><br><small>Hity</small></div>
-                </div>
-            </div>
-            <div class="req-form-wrap">
-                <form id="song-form">
-                    <input type="text" id="req-name" placeholder="Tvoje jméno" required>
-                    <input type="text" id="req-artist" placeholder="Interpret" required>
-                    <input type="text" id="req-song" placeholder="Název songu" required>
-                    <button type="submit" class="btn btn-primary" style="width:100%">ODESLAT DJOVI</button>
+    <section id="request">
+        <div class="container">
+            <h2 class="section-title anim-entry">SONG ON WISH</h2>
+            <div class="form-container anim-entry delay-2">
+                <form id="song-request-form">
+                    <label>Tvoje jméno</label>
+                    <input type="text" id="req-name" placeholder="Např. Lukáš" required>
+                    
+                    <label>Interpret</label>
+                    <input type="text" id="req-artist" placeholder="Např. Avicii" required>
+                    
+                    <label>Název skladby</label>
+                    <input type="text" id="req-song" placeholder="Např. Levels" required>
+                    
+                    <label>Spotify / YouTube Link (volitelné)</label>
+                    <input type="url" id="req-link" placeholder="https://...">
+                    
+                    <button type="submit" class="submit-btn">ODESLAT DJOVI <i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
     </section>
 
-    <section id="contact">
-        <footer>
-            <div class="container">
-                <div class="logo" style="margin-bottom: 20px;">DJ <span>MANCHINI</span></div>
-                <div class="footer-socials">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="mailto:darqsideee@gmail.com"><i class="fas fa-envelope"></i></a>
-                </div>
-                <p style="color: #555; margin-top: 30px; font-size: 0.8rem;">
-                    &copy; 2025 DJ MANCHINI. Všechna práva vyhrazena.
-                </p>
-                <div id="admin-trigger">Admin Login</div>
-            </div>
-        </footer>
-    </section>
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-spotify"></i></a>
+            <a href="mailto:darqsidee@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p style="margin-top:20px;">&copy; 2025 DJ MANCHINI</p>
+        
+        <div id="admin-trigger">DJ Login <i class="fas fa-lock"></i></div>
+    </footer>
 
-    <div id="admin-overlay">
-        <div class="admin-panel">
-            <div style="display:flex; justify-content:space-between; margin-bottom:30px;">
+    <div id="admin-panel">
+        <div class="container">
+            <div class="admin-header">
                 <h2>DJ PANEL</h2>
-                <button id="close-admin" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-                <div>
-                    <h3>Song Requests</h3>
-                    <div id="admin-req-list" style="margin-top:15px;"></div>
-                </div>
-
-                <div>
-                    <h3>Přidat Akci do Kalendáře</h3>
-                    <form id="add-event-form" style="background:#222; padding:20px; border-radius:10px; margin-top:15px;">
-                        <input type="text" id="evt-title" placeholder="Název akce" required>
-                        <input type="date" id="evt-date" required>
-                        <input type="text" id="evt-desc" placeholder="Popis (klub, čas...)">
-                        <button type="submit" class="btn btn-primary">ULOŽIT AKCI</button>
-                    </form>
-                </div>
+                <div class="close-admin" id="close-admin-btn"><i class="fas fa-times"></i> Zavřít</div>
             </div>
             
-            <button id="logout-btn" style="margin-top:30px; background:red; border:none; color:white; padding:10px 20px; border-radius:5px;">Odhlásit</button>
+            <div style="margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 20px;">
+                <h3>Přidat akci do kalendáře</h3>
+                <form id="add-event-form" style="margin-top: 15px;">
+                    <input type="text" id="event-title" placeholder="Název akce" required>
+                    <input type="date" id="event-date" required>
+                    <input type="text" id="event-desc" placeholder="Popis (místo, čas...)">
+                    <input type="url" id="event-img" placeholder="URL obrázku (volitelné)">
+                    <button type="submit" class="cta-btn" style="background: var(--primary); color: black;">PŘIDAT AKCI</button>
+                </form>
+            </div>
+
+            <h3>Žádosti o písničky</h3>
+            <div id="admin-requests-list">
+                </div>
+            
+            <button id="logout-btn" style="margin-top: 30px; background: red; border: none; color: white; padding: 10px 20px; border-radius: 5px;">Odhlásit se</button>
         </div>
     </div>
 
     <script type="module">
+        // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
+        // Konfigurace
         const firebaseConfig = {
             apiKey: "AIzaSyBV9h5nozB1rD6uGMI3h4TqCJ7WvKh6zFQ",
             authDomain: "manchini-a5042.firebaseapp.com",
@@ -322,201 +267,170 @@
             measurementId: "G-EX4WXE3Q7R"
         };
 
+        // Initialize
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
-        // ** ZMĚNA EMAULU ZDE **
-        const ADMIN_EMAIL = "darqsideee@gmail.com"; 
+        // --- PUBLIC: SONG REQUEST ---
+        const requestForm = document.getElementById('song-request-form');
+        requestForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('req-name').value;
+            const artist = document.getElementById('req-artist').value;
+            const song = document.getElementById('req-song').value;
+            const link = document.getElementById('req-link').value;
 
-        // --- AUTH & BUTTON LOGIC ---
-        const adminBtn = document.getElementById('admin-trigger');
-        const overlay = document.getElementById('admin-overlay');
+            push(ref(db, 'requests'), {
+                name: name,
+                artist: artist,
+                song: song,
+                link: link,
+                status: 'pending', // pending, favorite
+                timestamp: Date.now()
+            }).then(() => {
+                alert("✅ Písnička odeslána DJovi!");
+                requestForm.reset();
+            }).catch((error) => {
+                console.error(error);
+                alert("Chyba při odesílání.");
+            });
+        });
 
-        // Sleduje stav přihlášení a mění tlačítko
-        onAuthStateChanged(auth, (user) => {
-            if (user && user.email === ADMIN_EMAIL) {
-                // Jsi Admin: Změnit tlačítko na panel
-                adminBtn.innerHTML = '<i class="fas fa-sliders-h"></i> DJ PANEL';
-                adminBtn.classList.add('active-admin');
+        // --- PUBLIC: LOAD EVENTS ---
+        const eventsContainer = document.getElementById('events-container');
+        onValue(ref(db, 'events'), (snapshot) => {
+            eventsContainer.innerHTML = '';
+            const data = snapshot.val();
+            if (data) {
+                // Převod objektu na pole a seřazení podle data
+                const eventsArray = Object.values(data).sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                eventsArray.forEach(event => {
+                    // Formátování data
+                    const dateObj = new Date(event.date);
+                    const dateStr = dateObj.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long' });
+
+                    const div = document.createElement('div');
+                    div.className = 'event-card anim-entry';
+                    div.innerHTML = `
+                        <div class="event-date">${dateStr}</div>
+                        <h3>${event.title}</h3>
+                        <p>${event.desc}</p>
+                        ${event.img ? `<img src="${event.img}" class="event-img show" alt="Event">` : ''}
+                    `;
+                    eventsContainer.appendChild(div);
+                });
             } else {
-                // Nejsi Admin nebo odhlášen
-                adminBtn.innerHTML = 'Admin Login';
-                adminBtn.classList.remove('active-admin');
+                eventsContainer.innerHTML = '<p style="color:#666">Žádné nadcházející akce.</p>';
             }
         });
 
-        // Kliknutí na tlačítko
-        adminBtn.addEventListener('click', () => {
-            const user = auth.currentUser;
-            
-            if (user && user.email === ADMIN_EMAIL) {
-                // Pokud už je přihlášený -> Otevřít Panel
-                overlay.style.display = "block";
+        // --- ADMIN: LOGIN LOGIC ---
+        const adminTrigger = document.getElementById('admin-trigger');
+        const adminPanel = document.getElementById('admin-panel');
+        const closeAdminBtn = document.getElementById('close-admin-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const ALLOWED_EMAIL = "darqsidee@gmail.com";
+
+        adminTrigger.addEventListener('click', () => {
+            if (!auth.currentUser) {
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        const user = result.user;
+                        if (user.email === ALLOWED_EMAIL) {
+                            adminPanel.style.display = "block";
+                            loadAdminData();
+                        } else {
+                            alert("Nemáte oprávnění pro přístup do DJ panelu.");
+                            signOut(auth);
+                        }
+                    }).catch((error) => console.error(error));
             } else {
-                // Pokud není přihlášený -> Login Popup
-                signInWithPopup(auth, provider).then((result) => {
-                    if (result.user.email !== ADMIN_EMAIL) {
-                        alert("Přístup zamítnut. Tento email není veden jako DJ.");
-                        signOut(auth);
-                    } else {
-                        // Úspěšné přihlášení -> onAuthStateChanged změní tlačítko samo
-                        overlay.style.display = "block";
-                    }
-                }).catch((err) => console.error(err));
+                if(auth.currentUser.email === ALLOWED_EMAIL) {
+                    adminPanel.style.display = "block";
+                }
             }
+        });
+
+        // Close Admin Panel
+        closeAdminBtn.addEventListener('click', () => {
+            adminPanel.style.display = "none";
         });
 
         // Logout
-        document.getElementById('logout-btn').addEventListener('click', () => {
+        logoutBtn.addEventListener('click', () => {
             signOut(auth).then(() => {
-                overlay.style.display = 'none';
+                adminPanel.style.display = "none";
                 alert("Odhlášeno.");
             });
         });
-        
-        document.getElementById('close-admin').addEventListener('click', () => overlay.style.display='none');
 
-        // --- CALENDAR LOGIC ---
-        let currentDate = new Date();
-        const initialDate = new Date();
-        const maxFutureMonths = 2;
-        let eventsData = {}; 
-        const monthNames = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
-
-        function renderCalendar() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-
-            document.getElementById('cal-month-year').innerText = `${monthNames[month]} ${year}`;
+        // --- ADMIN: REQUEST MANAGEMENT ---
+        function loadAdminData() {
+            const adminReqList = document.getElementById('admin-requests-list');
             
-            const prevBtn = document.getElementById('prev-month');
-            const nextBtn = document.getElementById('next-month');
-            
-            const isSameMonth = initialDate.getMonth() === month && initialDate.getFullYear() === year;
-            prevBtn.disabled = isSameMonth;
-
-            const futureDate = new Date(initialDate);
-            futureDate.setMonth(initialDate.getMonth() + maxFutureMonths);
-            const isMaxFuture = month === futureDate.getMonth() && year === futureDate.getFullYear();
-            nextBtn.disabled = isMaxFuture;
-
-            const daysContainer = document.getElementById('cal-days-grid');
-            daysContainer.innerHTML = "";
-
-            const firstDayIndex = new Date(year, month, 1).getDay();
-            const adjustedFirstDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1; 
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            for(let i=0; i<adjustedFirstDay; i++) {
-                daysContainer.innerHTML += `<div></div>`;
-            }
-
-            for(let d=1; d<=daysInMonth; d++) {
-                const dayDiv = document.createElement('div');
-                dayDiv.className = 'day-cell';
-                dayDiv.innerText = d;
-                
-                const dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                
-                if(d === initialDate.getDate() && month === initialDate.getMonth() && year === initialDate.getFullYear()) {
-                    dayDiv.classList.add('today');
-                }
-
-                let foundEvent = null;
-                if(eventsData) {
-                    Object.values(eventsData).forEach(ev => {
-                        if(ev.date === dateKey) foundEvent = ev;
+            onValue(ref(db, 'requests'), (snapshot) => {
+                adminReqList.innerHTML = '';
+                const data = snapshot.val();
+                if(data) {
+                    // Reverse to show newest first
+                    Object.entries(data).reverse().forEach(([key, req]) => {
+                        const div = document.createElement('div');
+                        div.className = `request-list-item ${req.status === 'favorite' ? 'fav' : ''}`;
+                        div.innerHTML = `
+                            <div class="req-info">
+                                <strong>${req.song}</strong> - ${req.artist}<br>
+                                <small>Od: ${req.name}</small><br>
+                                ${req.link ? `<a href="${req.link}" target="_blank">Odkaz <i class="fas fa-external-link-alt"></i></a>` : ''}
+                            </div>
+                            <div class="req-actions">
+                                <button class="btn-fav" onclick="window.toggleFav('${key}', '${req.status}')"><i class="fas fa-star"></i></button>
+                                <button class="btn-del" onclick="window.deleteReq('${key}')"><i class="fas fa-trash"></i></button>
+                            </div>
+                        `;
+                        adminReqList.appendChild(div);
                     });
+                } else {
+                    adminReqList.innerHTML = '<p>Žádné žádosti.</p>';
                 }
-
-                if(foundEvent) dayDiv.classList.add('has-event');
-
-                dayDiv.addEventListener('click', () => {
-                    document.querySelectorAll('.day-cell').forEach(c => c.classList.remove('active-day'));
-                    dayDiv.classList.add('active-day');
-                    showEventDetails(d, month, year, foundEvent);
-                });
-
-                daysContainer.appendChild(dayDiv);
-            }
-        }
-
-        function showEventDetails(day, month, year, event) {
-            document.getElementById('sel-day-num').innerText = day;
-            document.getElementById('sel-month-name').innerText = monthNames[month];
-            const contentBox = document.getElementById('event-box-content');
-            
-            if(event) {
-                contentBox.innerHTML = `
-                    <span class="status-badge status-busy">OBSAZENO</span>
-                    <h3 style="margin-top:10px; font-size:1.5rem;">${event.title}</h3>
-                    <p style="color:#ccc; margin-top:10px;">${event.desc || ''}</p>
-                `;
-            } else {
-                contentBox.innerHTML = `
-                    <span class="status-badge status-free">VOLNÝ TERMÍN</span>
-                    <p style="margin-top:15px;">Na tento den není plánována žádná akce.</p>
-                    <a href="mailto:darqsideee@gmail.com?subject=Poptavka terminu ${day}.${month+1}.${year}" class="btn btn-outline" style="margin-top:20px; display:inline-block; font-size:0.8rem;">Poptat termín</a>
-                `;
-            }
-        }
-
-        document.getElementById('prev-month').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        });
-
-        document.getElementById('next-month').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        });
-
-        // --- FIREBASE DATA ---
-        onValue(ref(db, 'events'), (snap) => {
-            eventsData = snap.val() || {};
-            renderCalendar();
-        });
-
-        onValue(ref(db, 'requests'), (snap) => {
-            const list = document.getElementById('admin-req-list');
-            list.innerHTML = '';
-            const d = snap.val();
-            if(d) Object.entries(d).reverse().forEach(([k,v]) => {
-                list.innerHTML += `<div class="req-row"><div><b>${v.song}</b><br><small>${v.name}</small></div> <button onclick="window.del('${k}')" style="color:red;border:none;background:none;cursor:pointer;">X</button></div>`;
             });
-        });
+        }
 
-        // --- FORMS ---
-        document.getElementById('song-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            push(ref(db, 'requests'), {
-                name: document.getElementById('req-name').value,
-                artist: document.getElementById('req-artist').value,
-                song: document.getElementById('req-song').value,
-                status: 'pending',
-                timestamp: Date.now()
-            }).then(() => { alert("Odesláno!"); e.target.reset(); });
-        });
+        // Global functions for Admin buttons (attached to window because of module scope)
+        window.toggleFav = (key, currentStatus) => {
+            const newStatus = currentStatus === 'favorite' ? 'pending' : 'favorite';
+            update(ref(db, 'requests/' + key), { status: newStatus });
+        };
 
-        document.getElementById('add-event-form').addEventListener('submit', (e) => {
+        window.deleteReq = (key) => {
+            if(confirm("Smazat tuto žádost?")) {
+                remove(ref(db, 'requests/' + key));
+            }
+        };
+
+        // --- ADMIN: ADD EVENT ---
+        const eventForm = document.getElementById('add-event-form');
+        eventForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            const title = document.getElementById('event-title').value;
+            const date = document.getElementById('event-date').value;
+            const desc = document.getElementById('event-desc').value;
+            const img = document.getElementById('event-img').value;
+
             push(ref(db, 'events'), {
-                title: document.getElementById('evt-title').value,
-                date: document.getElementById('evt-date').value,
-                desc: document.getElementById('evt-desc').value
+                title: title,
+                date: date,
+                desc: desc,
+                img: img
+            }).then(() => {
+                alert("Akce přidána!");
+                eventForm.reset();
             });
-            alert("Uloženo");
-            document.getElementById('add-event-form').reset();
         });
 
-        window.del = (k) => remove(ref(db, 'requests/'+k));
-        
-        // Mobile Menu
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('nav-links').classList.toggle('active');
-        });
     </script>
 </body>
 </html>
